@@ -4,10 +4,7 @@
  
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };//Aqui va la direccion MAC de el arduino + shield
 EthernetServer server(80); //Creamos un servidor Web con el puerto 80 que es el puerto HTTP por defecto
- 
-int led1=6;//Pin del led
-int led2=7;
-int led3=8;
+
 
 String estado="OFF"; //Estado del Led inicialmente "OFF"
 File AlmacenamientoArduino;
@@ -64,10 +61,7 @@ void setup()
 
     Serial.println("El Archivo "Serial.wirte(File.Name)" no se abrió correctamente");
   }
- 
-  pinMode(6,OUTPUT);
-  pinMode(7,OUTPUT);
-  pinMode(8,OUTPUT);
+
 }
  
 void loop()
@@ -141,5 +135,3 @@ void loop()
     client.stop();// Cierra la conexión
   }
 }
-
-//Codigo programado por Kikerechu C
