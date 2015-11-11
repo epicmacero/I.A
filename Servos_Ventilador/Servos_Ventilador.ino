@@ -5,9 +5,9 @@ Servo servo2;
 
 const int ventilador1 = 3;// el pin del ventilador
 const int btnventilador = 4;// el pin del boton
-const int led1 = 7;// led rojo de la puerta
-const int led2 = 8;// led amarillo de la puerta
-const int led3 = 9;// led verde de la puerta
+const int led1 = 5;// led rojo de la puerta
+const int led2 = 6;// led amarillo de la puerta
+const int led3 = 7;// led verde de la puerta
 
 int pos = 0;
 
