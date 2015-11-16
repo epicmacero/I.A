@@ -16,20 +16,23 @@ void setup()
   // Inicializamos la comunicación Ethernet y el servidor
   Ethernet.begin(mac, ip);
   server.begin();
-  Serial.print("server is at ");
+  Serial.print  ("server is at ");
   Serial.println(Ethernet.localIP());
-  Serial.print("leyendo tarjeta SD");
+  Serial.print  ("leyendo tarjeta SD");
   pinMode(10, OUTPUT);
-  if (!SD.begin(10)){
-    sdsd
+  
+  if (!SD.begin(10))
+  {
     Serial.println("Se ha producido un error al leer la tarjeta SD");
     return;
   }
+  
   Serial.println("Tarjeta SD OK");
   
   AlmacenamientoArduino = SD.open("pruebasd.txt", FILE_WRITE);			  
   
-  if (AlmacenamientoArduino){													  
+  if (AlmacenamientoArduino)
+  {													  
   AlmacenamientoArduino.println("Esta modificando el AlmacenamientoArduino");
   AlmacenamientoArduino.close();
   Serial.println("Todos los datos salvados correctamente");
@@ -46,11 +49,8 @@ void setup()
   if (AlmacenamientoArduino){
     
     Serial.println("Información contenida en pruebasd.txt:");
-    
-    //(AlmacenamientoArduino.available()==FALSE).
-    while (AlmacenamientoArduino.available()){
-      
-     Serial.write(AlmacenamientoArduino.read());
+    while (AlmacenamientoArduino.available());  
+    Serial.write(AlmacenamientoArduino.read());
     }
     
 
@@ -89,6 +89,7 @@ void loop()
             if (!Ethernet.begin(8));
             "LED=ON";
           }
+          
           if(cadena.substring(posicion)=="LED1=OFF") //Si a la posición 'posicion' hay "LED1=OFF"
           {
             digitalWrite(led,LOW);
@@ -104,6 +105,7 @@ void loop()
             if (!Ethernet.begin(9));
             "LED=ON";
           }
+          
           if(cadena.substring(posicion)=="LED2=OFF") //Si a la posición 'posicion' hay "LED2=OFF"
           {
             digitalWrite(led,LOW);
@@ -119,6 +121,7 @@ void loop()
             if (!Ethernet.begin(11));
             "LED=ON";
           }
+          
           if(cadena.substring(posicion)=="LED3=OFF") //Si a la posición 'posicion' hay "LED3=OFF"
           {
             digitalWrite(led,LOW);
@@ -141,17 +144,39 @@ void loop()
             client.println("</head>");
             client.println("<body>");
             client.println("<h1 align='center'>Kike&Juan</h1><h3 align='center'>LED controlado por Servidor Web con Arduino</h3>");
+            
             //Crar los botones en HTMl para enviar parametros. Simbolo utilizado '?'
-            client.println("<div="boton1"> "
+            
+            client.println("<div="boton1"> ");
             client.println("<div style='text-align:center;'>");
             client.println("<button onClick=location.href='./?LED1=ON\' style='margin:auto;background-color: #84B1FF;color: snow;padding: 10px;border: 1px solid #3F7CFF;width:65px;'>");
             client.println("ON");
             client.println("</button>");
             client.println("<button onClick=location.href='./?LED1=OFF\' style='margin:auto;background-color: #84B1FF;color: snow;padding: 10px;border: 1px solid #3F7CFF;width:65px;'>");
             client.println("OFF");
-            client.println("</button>");
+            client.println("</div>");
             client.println("<br /><br />");
-            client.println("<b>LED = ");
+            
+            client.println("<div="boton2">");
+            client.println("<div style='text-align:center;'>");
+            client.println("<button onClick=location.href='./?LED2=ON\' style='margin:auto;background-color: #84B1FF;color: snow;padding: 10px;border: 1px solid #3F7CFF;width:65px;'>");
+            client.println("ON");
+            client.println("</button>");
+            client.println("<button onClick=location.href='./?LED2=OFF\' style='margin:auto;background-color: #84B1FF;color: snow;padding: 10px;border: 1px solid #3F7CFF;width:65px;'>");
+            client.println("OFF");
+            client.println("</div>");
+            client.println("<br /><br />");
+            
+            client.println("<div="boton3"> ");
+            client.println("<div style='text-align:center;'>");
+            client.println("<button onClick=location.href='./?LED3=ON\' style='margin:auto;background-color: #84B1FF;color: snow;padding: 10px;border: 1px solid #3F7CFF;width:65px;'>");
+            client.println("ON");
+            client.println("</button>");
+            client.println("<button onClick=location.href='./?LED3=OFF\' style='margin:auto;background-color: #84B1FF;color: snow;padding: 10px;border: 1px solid #3F7CFF;width:65px;'>");
+            client.println("OFF");
+            client.println("</div>");
+            client.println("<br /><br />");
+            
             client.print(estado);
             client.println("</b><br />");
             client.println("</b></body>");
