@@ -11,10 +11,11 @@ File AlmacenamientoArduino;
  
 void setup()
 {
+
   Serial.begin(9600);
  
   // Inicializamos la comunicación Ethernet y el servidor
-  Ethernet.begin(mac, ip);
+  Ethernet.begin(mac, 192.168.1.168);
   server.begin();
   Serial.print  ("server is at ");
   Serial.println(Ethernet.localIP());
@@ -55,11 +56,12 @@ void setup()
     
 
     AlmacenamientoArduino.close();
-  }
-  
-  else{
+}
 
-    Serial.println("El Archivo "Serial.wirte(File.Name)" no se abrió correctamente");
+  if else
+  {
+
+    Serial.println("El Archivo "Serial.wirte(File.Name)" no se abrió correctamente";
   }
 
 }
