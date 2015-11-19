@@ -1,7 +1,20 @@
 #include <SPI.h>  //Importamos librería comunicación SPI
 #include <Ethernet.h>  //Importamos librería Ethernet
 #include <SD.h> // Importamos libreria SD
- 
+#include <Servo.h>//importamos la libreria de los servos
+
+const int ventilador1 = 3;// el pin del ventilador
+const int btnventilador = 4;// el pin del boton
+const int led1 = 5;// led rojo de la puerta
+const int led2 = 6;// led amarillo de la puerta
+const int led3 = 7;// led verde de la puerta
+
+int pos = 0;
+
+int enecender = 0; // si esta funcionando el ventilador
+int anterior = 0; // pulsacion anterior
+int estado = 0; // el estado actual del boton
+
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };//Aqui va la direccion MAC de el arduino + shield
 EthernetServer server(80); //Creamos un servidor Web con el puerto 80 que es el puerto HTTP por defecto
 
@@ -56,13 +69,21 @@ void setup()
     
 
     AlmacenamientoArduino.close();
-}
+  }
 
   if else
   {
 
     Serial.println("El Archivo "Serial.wirte(File.Name)" no se abrió correctamente";
   }
+  
+  servo1.attach(1);//utilizamos 3 servos pero funciona
+  servo2.attach(2); 
+  pinMode(ventilador1,OUTPUT);
+  pinMode(btnventilador,INPUT);
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
 
 }
  
