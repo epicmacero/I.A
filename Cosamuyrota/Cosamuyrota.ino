@@ -1,20 +1,7 @@
 #include <SPI.h>  //Importamos librería comunicación SPI
 #include <Ethernet.h>  //Importamos librería Ethernet
-#include <SD.h> // Importamos libreria SD
-#include <Servo.h>//importamos la libreria de los servos
-
-const int ventilador1 = 3;// el pin del ventilador
-const int btnventilador = 4;// el pin del boton
-const int led1 = 5;// led rojo de la puerta
-const int led2 = 6;// led amarillo de la puerta
-const int led3 = 7;// led verde de la puerta
-
-int pos = 0;
-
-int enecender = 0; // si esta funcionando el ventilador
-int anterior = 0; // pulsacion anterior
-int estado = 0; // el estado actual del boton
-
+#include <SD.h>
+ 
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };//Aqui va la direccion MAC de el arduino + shield
 EthernetServer server(80); //Creamos un servidor Web con el puerto 80 que es el puerto HTTP por defecto
 
@@ -24,29 +11,25 @@ File AlmacenamientoArduino;
  
 void setup()
 {
-
   Serial.begin(9600);
  
   // Inicializamos la comunicación Ethernet y el servidor
-  Ethernet.begin(mac, 192.168.1.168);
+  Ethernet.begin(mac, ip);
   server.begin();
-  Serial.print  ("server is at ");
+  Serial.print("server is at ");
   Serial.println(Ethernet.localIP());
-  Serial.print  ("leyendo tarjeta SD");
+  Serial.print("leyendo tarjeta SD");
   pinMode(10, OUTPUT);
-  
-  if (!SD.begin(10))
-  {
+  if (!SD.begin(10)){
+    sdsd
     Serial.println("Se ha producido un error al leer la tarjeta SD");
     return;
   }
-  
   Serial.println("Tarjeta SD OK");
   
   AlmacenamientoArduino = SD.open("pruebasd.txt", FILE_WRITE);			  
   
-  if (AlmacenamientoArduino)
-  {													  
+  if (AlmacenamientoArduino){													  
   AlmacenamientoArduino.println("Esta modificando el AlmacenamientoArduino");
   AlmacenamientoArduino.close();
   Serial.println("Todos los datos salvados correctamente");
@@ -63,27 +46,21 @@ void setup()
   if (AlmacenamientoArduino){
     
     Serial.println("Información contenida en pruebasd.txt:");
-    while (AlmacenamientoArduino.available());  
-    Serial.write(AlmacenamientoArduino.read());
+    
+    //(AlmacenamientoArduino.available()==FALSE).
+    while (AlmacenamientoArduino.available()){
+      
+     Serial.write(AlmacenamientoArduino.read());
     }
     
 
     AlmacenamientoArduino.close();
   }
-
-  if else
-  {
-
-    Serial.println("El Archivo "Serial.wirte(File.Name)" no se abrió correctamente";
-  }
   
-  servo1.attach(1);//utilizamos 3 servos pero funciona
-  servo2.attach(2); 
-  pinMode(ventilador1,OUTPUT);
-  pinMode(btnventilador,INPUT);
-  pinMode(led1, OUTPUT);
-  pinMode(led2, OUTPUT);
-  pinMode(led3, OUTPUT);
+  else{
+
+    Serial.println("El Archivo "Serial.wirte(File.Name)" no se abrió correctamente");
+  }
 
 }
  
@@ -101,56 +78,17 @@ void loop()
         Serial.write(c);
         cadena.concat(c);
  
-         int posicion=cadena.indexOf("LED1="); //Instancia led 1 guardada
-         int posicion=cadena.indexOf("LED2="); //Instancia led 2 guardada
-         int posicion=cadena.indexOf("LED3="); //Instancia led 3 guardada
+         int posicion=cadena.indexOf("LED="); //Instancia led guardada
  
-          if(cadena.substring(posicion)=="LED1=ON")//Si a la posición 'posicion' hay "LED1=ON"
+          if(cadena.substring(posicion)=="LED=ON")//Si a la posición 'posicion' hay "LED=ON"
           {
             digitalWrite(led,HIGH);
             estado="ON";
-            if (!Ethernet.begin(8));
-            "LED=ON";
           }
-          
-          if(cadena.substring(posicion)=="LED1=OFF") //Si a la posición 'posicion' hay "LED1=OFF"
+          if(cadena.substring(posicion)=="LED=OFF")//Si a la posición 'posicion' hay "LED=OFF"
           {
             digitalWrite(led,LOW);
             estado="OFF";
-            if (!Ethernet.begin(8));
-            "LED=OFF";
-          }
-          
-          if(cadena.substring(posicion)=="LED2=ON")//Si a la posición 'posicion' hay "LED2=ON"
-          {
-            digitalWrite(led,HIGH);
-            estado="ON";
-            if (!Ethernet.begin(9));
-            "LED=ON";
-          }
-          
-          if(cadena.substring(posicion)=="LED2=OFF") //Si a la posición 'posicion' hay "LED2=OFF"
-          {
-            digitalWrite(led,LOW);
-            estado="OFF";
-            if (!Ethernet.begin(9));
-            "LED=OFF";
-          }
-          
-          if(cadena.substring(posicion)=="LED3=ON")//Si a la posición 'posicion' hay "LED3=ON"
-          {
-            digitalWrite(led,HIGH);
-            estado="ON";
-            if (!Ethernet.begin(11));
-            "LED=ON";
-          }
-          
-          if(cadena.substring(posicion)=="LED3=OFF") //Si a la posición 'posicion' hay "LED3=OFF"
-          {
-            digitalWrite(led,LOW);
-            estado="OFF";
-            if (!Ethernet.begin(11));
-            "LED=OFF";
           }
  
         //Servidor listo para enviar una respuesta si recibe el mensaje vacio
@@ -167,39 +105,16 @@ void loop()
             client.println("</head>");
             client.println("<body>");
             client.println("<h1 align='center'>Kike&Juan</h1><h3 align='center'>LED controlado por Servidor Web con Arduino</h3>");
-            
             //Crar los botones en HTMl para enviar parametros. Simbolo utilizado '?'
-            
-            client.println("<div="boton1"> ");
             client.println("<div style='text-align:center;'>");
-            client.println("<button onClick=location.href='./?LED1=ON\' style='margin:auto;background-color: #84B1FF;color: snow;padding: 10px;border: 1px solid #3F7CFF;width:65px;'>");
+            client.println("<button onClick=location.href='./?LED=ON\' style='margin:auto;background-color: #84B1FF;color: snow;padding: 10px;border: 1px solid #3F7CFF;width:65px;'>");
             client.println("ON");
             client.println("</button>");
-            client.println("<button onClick=location.href='./?LED1=OFF\' style='margin:auto;background-color: #84B1FF;color: snow;padding: 10px;border: 1px solid #3F7CFF;width:65px;'>");
+            client.println("<button onClick=location.href='./?LED=OFF\' style='margin:auto;background-color: #84B1FF;color: snow;padding: 10px;border: 1px solid #3F7CFF;width:65px;'>");
             client.println("OFF");
-            client.println("</div>");
-            client.println("<br /><br />");
-            
-            client.println("<div="boton2">");
-            client.println("<div style='text-align:center;'>");
-            client.println("<button onClick=location.href='./?LED2=ON\' style='margin:auto;background-color: #84B1FF;color: snow;padding: 10px;border: 1px solid #3F7CFF;width:65px;'>");
-            client.println("ON");
             client.println("</button>");
-            client.println("<button onClick=location.href='./?LED2=OFF\' style='margin:auto;background-color: #84B1FF;color: snow;padding: 10px;border: 1px solid #3F7CFF;width:65px;'>");
-            client.println("OFF");
-            client.println("</div>");
             client.println("<br /><br />");
-            
-            client.println("<div="boton3"> ");
-            client.println("<div style='text-align:center;'>");
-            client.println("<button onClick=location.href='./?LED3=ON\' style='margin:auto;background-color: #84B1FF;color: snow;padding: 10px;border: 1px solid #3F7CFF;width:65px;'>");
-            client.println("ON");
-            client.println("</button>");
-            client.println("<button onClick=location.href='./?LED3=OFF\' style='margin:auto;background-color: #84B1FF;color: snow;padding: 10px;border: 1px solid #3F7CFF;width:65px;'>");
-            client.println("OFF");
-            client.println("</div>");
-            client.println("<br /><br />");
-            
+            client.println("<b>LED = ");
             client.print(estado);
             client.println("</b><br />");
             client.println("</b></body>");
